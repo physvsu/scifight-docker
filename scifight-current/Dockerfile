@@ -3,7 +3,7 @@ MAINTAINER Pavel Kretov <firegurafiku@gmail.com>
 
 # Where to take source code from. Only Git is supported, and it's hightly
 # recommended to use the commit's full hash there.
-ARG SCIFIGHT_GIT_REPO="https://github.com/physvsu/scifight.git"
+ARG SCIFIGHT_GIT_REPO="https://github.com/scifight/scifight.git"
 ARG SCIFIGHT_GIT_COMMIT="dadc94baf1fb94cd04ea49fcda4b9dbf4a8ae7a6"
 ARG SCIFIGHT_PROJECT_DIR="/srv/scifight"
 ARG SCIFIGHT_STATIC_DIR="/srv/scifight-static"
