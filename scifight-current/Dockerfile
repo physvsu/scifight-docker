@@ -26,6 +26,13 @@ ENV SCIFIGHT_DB_NAME="scifight"
 ENV SCIFIGHT_DB_USER="scifight"
 ENV SCIFIGHT_DB_PASS=""
 
+# The locale to run server in. Usually, there is no need to change this
+# variable value even if the website is intended to run in another primary
+# language (say, Russian).
+ENV LANG="en_US.utf8"
+ENV LANGUAGE="$LANG"
+ENV LC_ALL="$LANG"
+
 # For Nginx to shine.
 EXPOSE 80
 
