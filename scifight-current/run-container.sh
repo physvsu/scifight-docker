@@ -9,7 +9,20 @@ if [ -z "$SCIFIGHT_SECRET_KEY" ] ; then
 fi
 
 cd -- "$SCIFIGHT_PROJECT_DIR"
-if [ ! -f .container_configuration_done ] ; then
+if [ ! -f /.container_configuration_done ] ; then
+    envsubst </.attach/nginx.conf \
+             >/etc/nginx/nginx.conf
+    envsubst </.attach/nginx-scifight.conf \
+             >/etc/nginx/sites-available/scifight.conf
+    envsubst </.attach/uwsgi-scifight.ini \
+             >/etc/uwsgi/apps-available/scifight.ini
+    ln -s /etc/nginx/sites-available/scifight.conf \
+          /etc/nginx/sites-enabled/
+    ln -s /etc/uwsgi/apps-available/scifight.ini \
+          /etc/uwsgi/apps-enabled/
+
+    rm /etc/nginx/sites-enabled/default
+
     sudo -u "$SCIFIGHT_OWNER_USER" --preserve-env -- sh -c '
         set -o errexit
         envsubst </.attach/settings_secret.py \
@@ -19,7 +32,8 @@ if [ ! -f .container_configuration_done ] ; then
         ./manage.py check --deploy
         ./manage.py migrate
         deactivate'
-    touch .container_configuration_done
+
+    touch /.container_configuration_done
 fi
     
 uwsgi --ini /etc/uwsgi/apps-enabled/scifight.ini

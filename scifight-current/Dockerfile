@@ -86,33 +86,18 @@ RUN cd -- "$SCIFIGHT_PROJECT_DIR" \
 
 USER root
 
-ADD settings_secret.py  /.attach/
-ADD run-container.sh    /.attach/
-ADD nginx.conf          /.attach/
-ADD nginx-scifight.conf /.attach/
-ADD uwsgi-scifight.ini  /.attach/
-ADD scifight-create-superuser.py /.attach/
-
-# Prepare Nginx site configuration, and enable it.
-RUN true \
-        && envsubst </.attach/nginx.conf >/etc/nginx/nginx.conf \
-        && envsubst </.attach/nginx-scifight.conf \
-                    >/etc/nginx/sites-available/scifight.conf \
-        && envsubst </.attach/uwsgi-scifight.ini \
-                    >/etc/uwsgi/apps-available/scifight.ini \
-        && ln -s /etc/nginx/sites-available/scifight.conf \
-                 /etc/nginx/sites-enabled/ \
-        && ln -s /etc/uwsgi/apps-available/scifight.ini \
-                 /etc/uwsgi/apps-enabled/
-
 # Perform some aggressive cleanup.
 RUN apt-get remove -y git gcc python-virtualenv python3-pip python3-dev \
         && apt-get autoremove -y \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN true \
-        && cp /.attach/run-container.sh /run-container.sh \
-        && chmod +x /run-container.sh
+ADD settings_secret.py  /.attach/
+ADD run-container.sh    /
+ADD nginx.conf          /.attach/
+ADD nginx-scifight.conf /.attach/
+ADD uwsgi-scifight.ini  /.attach/
+ADD scifight-create-superuser.py /.attach/
 
+RUN chmod +x /run-container.sh
 CMD exec /run-container.sh
