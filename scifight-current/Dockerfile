@@ -18,7 +18,7 @@ ENV SCIFIGHT_OWNER_GROUP="$SCIFIGHT_OWNER_GROUP"
 # change the setings, or the defaults will be used. The only way to alter these
 # settings after the first run is to recreate the container.
 ENV SCIFIGHT_SECRET_KEY=""
-ENV SCIFIGHT_HOST_FQN="127.0.0.1"
+ENV SCIFIGHT_HOSTNAME="localhost"
 ENV SCIFIGHT_DB_ENGINE="django.db.backends.mysql"
 ENV SCIFIGHT_DB_HOST="127.0.0.1"
 ENV SCIFIGHT_DB_PORT="3306"
